@@ -72,7 +72,7 @@ class Waveguide():
 
         lnoi.layer = 1; lnoi.material_value = self.n_wg[1]**2
         bottom_cladding.layer = 2; bottom_cladding.material_value = self.n_ins
-        eps_bg.layer = 3; eps_bg.material_value = 1.0
+        eps_bg.layer = 3; eps_bg.material_value = self.n_clad
 
         eps_y = emopt.grid.StructuredMaterial2D(W,H,dx,dy)
         eps_y.add_primitives([lnoi, bottom_cladding, eps_bg])
@@ -83,7 +83,7 @@ class Waveguide():
 
         lnoi.layer = 1; lnoi.material_value = self.n_wg[2]**2
         bottom_cladding.layer = 2; bottom_cladding.material_value = self.n_ins
-        eps_bg.layer = 3; eps_bg.material_value = 1.0
+        eps_bg.layer = 3; eps_bg.material_value = self.n_clad
 
         eps_z = emopt.grid.StructuredMaterial2D(W,H,dx,dy)
         eps_z.add_primitives([lnoi, bottom_cladding, eps_bg])
