@@ -9,7 +9,7 @@ class WaveguideModes():
         self.n_modes = n_modes
         self.wl = wavelength
 
-        self.solver = emopt.modes.ModeFullVector(self.wl, self.wg.eps, self.wg.mu, self.wg.domain, n0=np.sqrt(self.wg.n_wg[0]), neigs=self.n_modes)
+        self.solver = emopt.modes.ModeFullVector(self.wl, self.wg.eps, self.wg.mu, self.wg.domain, n0=self.wg.n_wg[0], neigs=self.n_modes)
 
 
     def solve(self):
