@@ -1,18 +1,23 @@
 import emopt
+from emopt.misc import NOT_PARALLEL
 import numpy as np
+import copy
 
 class WaveguideModes():
     def __init__(self, waveguide, wavelength=1.55, n_modes=1):
         self.wg = waveguide
         self.n_modes = n_modes
         self.wl = wavelength
-    @property
-    def solver(self):
-        return emopt.modes.ModeFullVector(self.wl, self.wg.eps, self.wg.mu, self.wg.domain, n0=np.sqrt(self.wg.n_wg[0]), neigs=self.n_modes)
+
+        self.solver = emopt.modes.ModeFullVector(self.wl, self.wg.eps, self.wg.mu, self.wg.domain, n0=np.sqrt(self.wg.n_wg[0]), neigs=self.n_modes)
+
 
     def solve(self):
-        self.solver.build()
-        self.solver.solve()
+        local_solver = self.solver
+        local_solver.build()
+        local_solver.solve()
+
+        self.solver = local_solver
 
     def get_field(self, i, component):
         return self.solver.get_field(i, component)

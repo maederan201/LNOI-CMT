@@ -99,9 +99,3 @@ class Waveguide():
         W = self._sim_region[0]
         H = self._sim_region[1]
         return emopt.misc.DomainCoordinates(-W/2., W/2., -self.h_tf/2. - self.h_clad, self.h_tf/2. + (H - self.h_tf - self.h_clad), 0, 0, self.resolution, self.resolution, 1.0)
-
-
-
-p = {'w':0.6,'h': 0.3, 'alpha': 60}
-wg = Waveguide(p)
-print(wg)
