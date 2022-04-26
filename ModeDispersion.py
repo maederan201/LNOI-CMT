@@ -3,12 +3,12 @@ from src.waveguide import Waveguide
 from emopt.misc import NOT_PARALLEL
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('https://raw.githubusercontent.com/maederan201/MPLStyles/master/mystyle-std.mplstyle')
+# plt.style.use('https://raw.githubusercontent.com/maederan201/MPLStyles/master/mystyle-std.mplstyle')
 
 N = 10
 n = 4
 wavelength = 1.55  # um
-fixed_params = {'h': 0.25, 'h_tf': 0.4, 'alpha': 65, 'resolution': 0.1}
+fixed_params = {'h': 0.25, 'h_tf': 0.4, 'alpha': 65, 'resolution': 0.01}
 
 sweep_parameter_name = 'w'
 sweep_parameter_label = 'Width [μm]'
