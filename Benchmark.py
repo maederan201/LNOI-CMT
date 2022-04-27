@@ -5,14 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 # plt.style.use('https://raw.githubusercontent.com/maederan201/MPLStyles/master/mystyle-std.mplstyle')
 
-N = 20
+N = 200
 n = 1
 wavelength = 1.55  # um
 fixed_params = {'h': 0.25, 'w': 0.8, 'h_tf': 0.4, 'alpha': 65}
 
 sweep_parameter_name = 'resolution'
 sweep_parameter_label = 'Resoltuion [μm]'
-sweep_parameter_values = np.linspace(0.1,0.005,N)
+sweep_parameter_values = np.linspace(0.1,0.001,N)
 
 
 result_array = np.zeros((N,n+1),dtype=np.complex128)
@@ -32,4 +32,4 @@ if NOT_PARALLEL:
     ax.set_xlabel(sweep_parameter_label)
     ax.set_ylabel('Effective Index')
 else:
-    np.savez_compressed('result_array.npz', result_array)
+    np.savez_compressed('result_array.npz', a=result_array)
