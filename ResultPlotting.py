@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-result_array = np.load('result_array.npz')['arr_0']
+result_array = np.load('result_array.npz')['a']
 
 fig, ax = plt.subplots()
 n = 1

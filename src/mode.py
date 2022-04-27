@@ -105,22 +105,64 @@ class WaveguideModes():
         else:
             print('Warning: Mode not visualized due to being in parallel computing mode.')
 
-    def overlap_integrals(self, mode2, indices=(0,0)):
-        Ex1 = self.get_field_interp(indices[0], 'Ex')
-        Ey1 = self.get_field_interp(indices[0], 'Ey')
-        Ez1 = self.get_field_interp(indices[0], 'Ez')
-        Hx1 = self.get_field_interp(indices[0], 'Hx')
-        Hy1 = self.get_field_interp(indices[0], 'Hy')
-        Hz1 = self.get_field_interp(indices[0], 'Hz')
-
-        Ex2 = mode2.get_field_interp(indices[1], 'Ex')
-        Ey2 = mode2.get_field_interp(indices[1], 'Ey')
-        Ez2 = mode2.get_field_interp(indices[1], 'Ez')
-        Hx2 = mode2.get_field_interp(indices[1], 'Hx')
-        Hy2 = mode2.get_field_interp(indices[1], 'Hy')
-        Hz2 = mode2.get_field_interp(indices[1], 'Hz')
-
-
-
-
+    def _integrate_field(self,field, x, y):
         pass
+
+    def coupling_coefficients(self, mode2, indices=(0,0), gap=0.0):
+        Ex1 = self.get_field_interp(indices[0], 'Ex')[0]
+        Ey1 = self.get_field_interp(indices[0], 'Ey')[0]
+        Ez1 = self.get_field_interp(indices[0], 'Ez')[0]
+        Hx1 = self.get_field_interp(indices[0], 'Hx')[0]
+        Hy1 = self.get_field_interp(indices[0], 'Hy')[0]
+        Hz1 = self.get_field_interp(indices[0], 'Hz')[0]
+
+        Ex2 = mode2.get_field_interp(indices[1], 'Ex')[0]
+        Ey2 = mode2.get_field_interp(indices[1], 'Ey')[0]
+        Ez2 = mode2.get_field_interp(indices[1], 'Ez')[0]
+        Hx2 = mode2.get_field_interp(indices[1], 'Hx')[0]
+        Hy2 = mode2.get_field_interp(indices[1], 'Hy')[0]
+        Hz2 = mode2.get_field_interp(indices[1], 'Hz')[0]
+
+        nxx1 = np.sqrt(mode2.wg.eps[0].get_values_in(mode2.wg.domain))
+        nyy1 = np.sqrt(mode2.wg.eps[1].get_values_in(mode2.wg.domain))
+        nzz1 = np.sqrt(mode2.wg.eps[2].get_values_in(mode2.wg.domain))
+        nxx2 = np.sqrt(mode2.wg.eps[0].get_values_in(mode2.wg.domain))
+        nyy2 = np.sqrt(mode2.wg.eps[1].get_values_in(mode2.wg.domain))
+        nzz2 = np.sqrt(mode2.wg.eps[2].get_values_in(mode2.wg.domain))
+
+        xspan1 = 1
+
+        E1 = np.array([Ex1,Ey1,Ez1],dtype='complex128')
+        E2 = np.array([Ex2,Ey2,Ez2],dtype='complex128')
+        H1 = np.array([Hx1,Hy1,Hz1],dtype='complex128')
+        H2 = np.array([Hx2,Hy2,Hz2],dtype='complex128')
+
+        k_pq = np.zeros((2,2),dtype='complex128')
+        c_pq = np.zeros((2,2),dtype='complex128')
+        chi_p = np.zeros((2,),dtype='complex128')
+
+        E_i = [E1, E2]
+        H_i = [H1, H2]
+
+        for p in range(2):
+            for q in range(2):
+                # E_p* . E_q
+                scalar_product = (
+                    np.multiply(np.conj(E_i[p][0,:,:]),E_i[q][0,:,:])
+                    + np.multiply(np.conj(E_i[p][1,:,:]),E_i[q][1,:,:])
+                    + np.multiply(np.conj(E_i[p][2,:,:]),E_i[q][2,:,:])
+                )
+                # u_z . (E_p* x H_p + E_p x H_p*)
+                cross_product1 = (
+                    np.multiply(np.conj(E_i[p][0,:,:]),H_i[p][1,:,:])
+                    - np.multiply(np.conj(E_i[p][1,:,:]),H_i[p][0,:,:])
+                    + np.multiply(E_i[p][0,:,:],np.conj(H_i[p][1,:,:]))
+                    - np.multiply(E_i[p][1,:,:],np.conj(H_i[p][0,:,:]))
+                )
+                # u_z . (E_p* x H_q + E_q x H_p*)
+                cross_product2 = (
+                    np.multiply(np.conj(E_i[p][0,:,:]),H_i[q][1,:,:])
+                    - np.multiply(np.conj(E_i[p][1,:,:]),H_i[q][0,:,:])
+                    + np.multiply(E_i[q][0,:,:],np.conj(H_i[p][1,:,:]))
+                    - np.multiply(E_i[q][1,:,:],np.conj(H_i[p][0,:,:]))
+                )
