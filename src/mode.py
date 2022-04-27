@@ -105,8 +105,22 @@ class WaveguideModes():
         else:
             print('Warning: Mode not visualized due to being in parallel computing mode.')
 
-    def overlap_integral(self, mode2, indices=(0,0), gap=0, weight=None):
+    def overlap_integrals(self, mode2, indices=(0,0)):
         Ex1 = self.get_field_interp(indices[0], 'Ex')
         Ey1 = self.get_field_interp(indices[0], 'Ey')
         Ez1 = self.get_field_interp(indices[0], 'Ez')
+        Hx1 = self.get_field_interp(indices[0], 'Hx')
+        Hy1 = self.get_field_interp(indices[0], 'Hy')
+        Hz1 = self.get_field_interp(indices[0], 'Hz')
+
+        Ex2 = mode2.get_field_interp(indices[1], 'Ex')
+        Ey2 = mode2.get_field_interp(indices[1], 'Ey')
+        Ez2 = mode2.get_field_interp(indices[1], 'Ez')
+        Hx2 = mode2.get_field_interp(indices[1], 'Hx')
+        Hy2 = mode2.get_field_interp(indices[1], 'Hy')
+        Hz2 = mode2.get_field_interp(indices[1], 'Hz')
+
+
+
+
         pass
