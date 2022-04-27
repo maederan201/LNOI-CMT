@@ -12,7 +12,7 @@ fixed_params = {'h': 0.25, 'w': 0.8, 'h_tf': 0.4, 'alpha': 65}
 
 sweep_parameter_name = 'resolution'
 sweep_parameter_label = 'Resoltuion [μm]'
-sweep_parameter_values = np.linspace(0.1,0.001,N)
+sweep_parameter_values = np.linspace(0.1,0.002,N)
 
 
 result_array = np.zeros((N,n+1),dtype=np.complex128)
